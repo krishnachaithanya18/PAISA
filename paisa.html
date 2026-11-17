@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PAISA — Student Smart Expense Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- Pure CSS Theme & Data Reset States -->
+  <input type="checkbox" id="theme-toggle" class="theme-toggle" aria-label="Switch between light and dark theme">
+  <input type="checkbox" id="reset-toggle" class="reset-toggle" aria-label="Reset test data to zero">
+
+  <div class="app-shell">
+    <!-- Pure CSS Mobile Navigation Toggle -->
+    <input type="checkbox" id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle navigation menu">
+
+    <!-- Mobile Top Header -->
+    <header class="mobile-header">
+      <a href="#dashboard" class="brand">
+        <span class="brand-mark" aria-hidden="true">₹</span>
+        <span class="brand-text">
+          <strong>PAISA</strong>
+          <small>Student Ledger</small>
+        </span>
+      </a>
+      <label for="sidebar-toggle" class="menu-button" role="button" tabindex="0">Menu</label>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" aria-label="Primary Navigation">
+      <div class="sidebar-header">
+        <a href="#dashboard" class="brand">
+          <span class="brand-mark" aria-hidden="true">₹</span>
+          <span class="brand-text">
+            <strong>PAISA</strong>
+            <small>Student Ledger</small>
+          </span>
+        </a>
+        <label for="sidebar-toggle" class="close-menu" aria-label="Close navigation">&times;</label>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="#dashboard" class="nav-link active">Dashboard</a>
+        <a href="#automatic-tracking" class="nav-link">
+          Automatic Tracking
+          <span class="nav-pill">SMS</span>
+        </a>
+        <a href="#transactions" class="nav-link">Transactions</a>
+        <a href="#categories" class="nav-link">Categories</a>
+        <a href="#budget" class="nav-link">Monthly Budget</a>
+        <a href="#insights" class="nav-link">Insights</a>
+        <a href="#settings" class="nav-link">Settings</a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="account-chip">
+          <span class="status-dot" aria-hidden="true"></span>
+          <div>
+            <p class="account-label">A/c XX1234 Linked</p>
+            <p class="account-sub">SMS Parser Ready</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="main-content">
+      <!-- Top Context Bar -->
+      <header class="topbar">
+        <div>
+          <h1 class="page-title">Monthly Financial Overview</h1>
+          <p class="page-subtitle">Automated SMS expense tracking and student budget ledger</p>
+        </div>
+
+        <div class="topbar-actions">
+          <label for="reset-toggle" class="action-toggle-btn reset-btn" role="button" tabindex="0">
+            <span class="reset-label-clear">Reset Data to ₹0</span>
+            <span class="reset-label-restore">Restore Sample Data</span>
+          </label>
+
+          <label for="theme-toggle" class="action-toggle-btn theme-toggle-btn" role="button" tabindex="0">
+            <span class="theme-label-dark">Dark Theme</span>
+            <span class="theme-label-light">Light Theme</span>
+          </label>
+
+          <div class="month-picker">
+            <label for="month-select" class="sr-only">Select Month</label>
+            <select id="month-select" name="month">
+              <option value="2026-11" selected>November 2026</option>
+              <option value="2026-10">October 2026</option>
+              <option value="2026-09">September 2026</option>
+              <option value="2026-08">August 2026</option>
+            </select>
+          </div>
+
+          <a href="#manual-entry" class="btn btn-primary">+ Add Entry</a>
+        </div>
+      </header>
+
+      <!-- A. DASHBOARD / HOME -->
+      <section id="dashboard" class="section" aria-labelledby="dashboard-heading">
+        <h2 id="dashboard-heading" class="sr-only">Dashboard Summary</h2>
+
+        <!-- 4 Core Summary Cards -->
+        <div class="kpi-grid">
+          <article class="card kpi-card kpi-highlight">
+            <p class="kpi-label">Total Monthly Balance</p>
+            <p class="kpi-value">
+              <span class="val-sample">₹4,550</span>
+              <span class="val-zero">₹0</span>
+            </p>
+            <p class="kpi-meta">
+              <span class="val-sample">37.9% of monthly income retained</span>
+              <span class="val-zero">0% of monthly income retained</span>
+            </p>
+          </article>
+
+          <article class="card kpi-card">
+            <p class="kpi-label">Total Income</p>
+            <p class="kpi-value text-income">
+              <span class="val-sample">₹12,000</span>
+              <span class="val-zero">₹0</span>
+            </p>
+            <p class="kpi-meta">
+              <span class="val-sample">Allowance &amp; internship stipend</span>
+              <span class="val-zero">0 income entries recorded</span>
+            </p>
+          </article>
+
+          <article class="card kpi-card">
+            <p class="kpi-label">Total Expenses</p>
+            <p class="kpi-value text-expense">
+              <span class="val-sample">₹7,450</span>
+              <span class="val-zero">₹0</span>
+            </p>
+            <p class="kpi-meta">
+              <span class="val-sample">18 transactions in Nov 2026</span>
+              <span class="val-zero">0 transactions in Nov 2026</span>
+            </p>
+          </article>
+
+          <article class="card kpi-card">
+            <p class="kpi-label">Remaining Budget</p>
+            <p class="kpi-value">
+              <span class="val-sample">₹1,550</span>
+              <span class="val-zero">₹0</span>
+            </p>
+            <p class="kpi-meta">
+              <span class="val-sample">Out of ₹9,000 spending cap</span>
+              <span class="val-zero">Out of ₹0 spending cap</span>
+            </p>
+          </article>
+        </div>
+
+        <!-- Monthly Spending Overview & Savings Overview -->
+        <div class="grid-two-col">
+          <article class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Monthly Spending Overview</h3>
+                <p class="card-subtitle">Weekly outflow distribution for November 2026</p>
+              </div>
+              <span class="badge badge-neutral">
+                <span class="val-sample">₹7,450 Spent</span>
+                <span class="val-zero">₹0 Spent</span>
+              </span>
+            </div>
+
+            <div class="weekly-bars" role="img" aria-label="Weekly expenses breakdown">
+              <div class="week-row">
+                <span class="week-label">Week 1 (01–07 Nov)</span>
+                <div class="progress-track">
+                  <div class="progress-fill" style="width: 82%;"></div>
+                </div>
+                <span class="week-amount">
+                  <span class="val-sample">₹3,270</span>
+                  <span class="val-zero">₹0</span>
+                </span>
+              </div>
+              <div class="week-row">
+                <span class="week-label">Week 2 (08–14 Nov)</span>
+                <div class="progress-track">
+                  <div class="progress-fill" style="width: 47%;"></div>
+                </div>
+                <span class="week-amount">
+                  <span class="val-sample">₹1,890</span>
+                  <span class="val-zero">₹0</span>
+                </span>
+              </div>
+              <div class="week-row">
+                <span class="week-label">Week 3 (15–17 Nov)</span>
+                <div class="progress-track">
+                  <div class="progress-fill" style="width: 57%;"></div>
+                </div>
+                <span class="week-amount">
+                  <span class="val-sample">₹2,290</span>
+                  <span class="val-zero">₹0</span>
+                </span>
+              </div>
+              <div class="week-row">
+                <span class="week-label">Week 4 (Upcoming)</span>
+                <div class="progress-track">
+                  <div class="progress-fill" style="width: 0%;"></div>
+                </div>
+                <span class="week-amount">₹0</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Savings Overview</h3>
+                <p class="card-subtitle">Monthly goal vs. actual surplus</p>
+              </div>
+              <span class="badge badge-income">
+                <span class="val-sample">On Track</span>
+                <span class="val-zero">₹0 Saved</span>
+              </span>
+            </div>
+
+            <div class="savings-summary">
+              <div class="savings-figures">
+                <div>
+                  <span class="stat-small-label">Current Surplus</span>
+                  <p class="stat-medium-value">
+                    <span class="val-sample">₹4,550</span>
+                    <span class="val-zero">₹0</span>
+                  </p>
+                </div>
+                <div>
+                  <span class="stat-small-label">Monthly Target</span>
+                  <p class="stat-medium-value">
+                    <span class="val-sample">₹3,000</span>
+                    <span class="val-zero">₹0</span>
+                  </p>
+                </div>
+                <div>
+                  <span class="stat-small-label">Semester Total</span>
+                  <p class="stat-medium-value">
+                    <span class="val-sample">₹16,800</span>
+                    <span class="val-zero">₹0</span>
+                  </p>
+                </div>
+              </div>
+
+              <div class="budget-meter">
+                <div class="meter-labels">
+                  <span>Savings Goal Progress</span>
+                  <span>
+                    <span class="val-sample">151% of ₹3,000 goal</span>
+                    <span class="val-zero">0% of ₹0 goal</span>
+                  </span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill progress-olive-dark" style="width: 100%;"></div>
+                </div>
+              </div>
+
+              <p class="helper-note">
+                <span class="val-sample">You are currently ₹1,550 ahead of your minimum monthly savings target with 13
+                  days left in November.</span>
+                <span class="val-zero">Test data cleared. Add a transaction or restore sample data to view savings
+                  progress.</span>
+              </p>
+            </div>
+          </article>
+        </div>
+
+        <!-- Dashboard Snapshot: Recent Transactions & Top Categories -->
+        <div class="grid-two-col">
+          <article class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Recent Activity</h3>
+                <p class="card-subtitle">Latest synced entries</p>
+              </div>
+              <a href="#transactions" class="text-link">View all &rarr;</a>
+            </div>
+
+            <ul class="compact-list sample-block">
+              <li class="compact-item">
+                <div>
+                  <p class="item-title">Zomato <span class="source-tag">Auto SMS</span></p>
+                  <p class="item-sub">17 Nov 2026 &middot; Food &amp; Dining</p>
+                </div>
+                <span class="amount-expense">-₹250</span>
+              </li>
+              <li class="compact-item">
+                <div>
+                  <p class="item-title">BMTC Bus <span class="source-tag">Auto SMS</span></p>
+                  <p class="item-sub">16 Nov 2026 &middot; Transportation</p>
+                </div>
+                <span class="amount-expense">-₹80</span>
+              </li>
+              <li class="compact-item">
+                <div>
+                  <p class="item-title">College Canteen <span class="source-tag">Auto SMS</span></p>
+                  <p class="item-sub">15 Nov 2026 &middot; Food &amp; Dining</p>
+                </div>
+                <span class="amount-expense">-₹120</span>
+              </li>
+              <li class="compact-item">
+                <div>
+                  <p class="item-title">Mobile Recharge <span class="source-tag">Auto SMS</span></p>
+                  <p class="item-sub">12 Nov 2026 &middot; Bills &amp; Recharge</p>
+                </div>
+                <span class="amount-expense">-₹499</span>
+              </li>
+              <li class="compact-item">
+                <div>
+                  <p class="item-title">Monthly Allowance <span class="source-tag">Auto SMS</span></p>
+                  <p class="item-sub">05 Nov 2026 &middot; Income</p>
+                </div>
+                <span class="amount-income">+₹5,000</span>
+              </li>
+            </ul>
+
+            <p class="empty-state empty-block">No recent activity. All ledger entries have been reset to ₹0.</p>
+          </article>
+
+          <article class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Top Spending Categories</h3>
+                <p class="card-subtitle">
+                  <span class="val-sample">Share of ₹7,450 total expenses</span>
+                  <span class="val-zero">Share of ₹0 total expenses</span>
+                </p>
+              </div>
+              <a href="#categories" class="text-link">All 10 categories &rarr;</a>
+            </div>
+
+            <ul class="compact-list">
+              <li class="compact-category">
+                <div class="cat-top">
+                  <span>Accommodation</span>
+                  <span>
+                    <span class="val-sample">₹2,000 (26.8%)</span>
+                    <span class="val-zero">₹0 (0%)</span>
+                  </span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill" style="width: 26.8%;"></div>
+                </div>
+              </li>
+              <li class="compact-category">
+                <div class="cat-top">
+                  <span>Food &amp; Dining</span>
+                  <span>
+                    <span class="val-sample">₹1,620 (21.7%)</span>
+                    <span class="val-zero">₹0 (0%)</span>
+                  </span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill" style="width: 21.7%;"></div>
+                </div>
+              </li>
+              <li class="compact-category">
+                <div class="cat-top">
+                  <span>Groceries</span>
+                  <span>
+                    <span class="val-sample">₹980 (13.2%)</span>
+                    <span class="val-zero">₹0 (0%)</span>
+                  </span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill" style="width: 13.2%;"></div>
+                </div>
+              </li>
+              <li class="compact-category">
+                <div class="cat-top">
+                  <span>Education</span>
+                  <span>
+                    <span class="val-sample">₹850 (11.4%)</span>
+                    <span class="val-zero">₹0 (0%)</span>
+                  </span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill" style="width: 11.4%;"></div>
+                </div>
+              </li>
+              <li class="compact-category">
+                <div class="cat-top">
+                  <span>Transportation</span>
+                  <span>
+                    <span class="val-sample">₹540 (7.2%)</span>
+                    <span class="val-zero">₹0 (0%)</span>
+                  </span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill" style="width: 7.2%;"></div>
+                </div>
+              </li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <!-- B. AUTOMATIC TRANSACTION DETECTION -->
+      <section id="automatic-tracking" class="section" aria-labelledby="auto-heading">
+        <div class="section-header">
+          <div>
+            <h2 id="auto-heading" class="section-title">Automatic Tracking</h2>
+            <p class="section-subtitle">Bank SMS detection engine and transaction field extraction</p>
+          </div>
+          <span class="badge badge-olive">Android SMS Bridge Ready</span>
+        </div>
+
+        <!-- Integration Status & Architecture Disclosure -->
+        <div class="card integration-banner">
+          <div class="integration-status-grid">
+            <div class="status-metric">
+              <span class="stat-small-label">SMS Integration Status</span>
+              <p class="status-value">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span class="val-sample">Sample Feed Active (Bridge Ready)</span>
+                <span class="val-zero">Cleared — Ready for New SMS</span>
+              </p>
+            </div>
+            <div class="status-metric">
+              <span class="stat-small-label">Last Transaction Detected</span>
+              <p class="status-value">
+                <span class="val-sample">17-11-2026 &middot; Zomato (₹250)</span>
+                <span class="val-zero">None (₹0)</span>
+              </p>
+            </div>
+            <div class="status-metric">
+              <span class="stat-small-label">Transactions Imported</span>
+              <p class="status-value">
+                <span class="val-sample">16 Auto-Detected / 2 Manual</span>
+                <span class="val-zero">0 Auto-Detected / 0 Manual</span>
+              </p>
+            </div>
+          </div>
+
+          <p class="disclosure-note">
+            <strong>How SMS Sync Works:</strong> Standard web browsers cannot read phone SMS inboxes directly due to
+            browser security sandboxing. This interface displays sample bank notifications and is structured to receive
+            parsed payloads from a companion Android app (with explicit <code>READ_SMS</code> permission) or a secure
+            encrypted webhook backend.
+          </p>
+        </div>
+
+        <!-- Sample Bank SMS Cards & Verification Interface -->
+        <div class="sms-list sample-block">
+          <!-- SMS Card 1 -->
+          <article class="card sms-card">
+            <div class="sms-top">
+              <div>
+                <span class="sms-sender">VK-HDFCBK &middot; Bank SMS</span>
+                <blockquote class="sms-raw">
+                  "Your A/c XX1234 is debited with Rs. 250.00 on 17-11-2026 towards UPI payment to ZOMATO."
+                </blockquote>
+              </div>
+              <div class="verify-control">
+                <input type="checkbox" id="verify-sms-1" class="verify-checkbox" checked>
+                <label for="verify-sms-1" class="verify-label">
+                  <span class="state-verified">Verified &amp; Logged</span>
+                  <span class="state-pending">Confirm Entry</span>
+                </label>
+              </div>
+            </div>
+
+            <dl class="extracted-grid">
+              <div class="extracted-field">
+                <dt>Amount</dt>
+                <dd class="mono-num">₹250.00</dd>
+              </div>
+              <div class="extracted-field">
+                <dt>Type</dt>
+                <dd><span class="badge badge-expense">Expense</span></dd>
+              </div>
+              <div class="extracted-field">
+                <dt>Merchant</dt>
+                <dd>Zomato</dd>
+              </div>
+              <div class="extracted-field">
+                <dt>Category</dt>
+                <dd>Food &amp; Dining</dd>
+              </div>
+              <div class="extracted-field">
+                <dt>Date</dt>
+                <dd class="mono-num">17-11-2026</dd>
+              </div>
+            </dl>
+          </article>
+
+          <!-- SMS Card 2 -->
+          <article class="card sms-card">
+            <div class="sms-top">
+              <div>
+                <span class="sms-sender">AD-SBIINB &middot; Bank SMS</span>
+                <blockquote class="sms-raw">
+                  "Your A/c XX1234 is credited with Rs. 5000.00 on 05-11-2026 via IMPS transfer from PARENTS AC."
+                </blockquote>
+              </div>
+              <div class="verify-control">
+                <input type="checkbox" id="verify-sms-2" class="verify-checkbox" checked>
+                <label for="verify-sms-2" class="verify-label">
+                  <span class="state-verified">Verified &amp; Logged</span>
+                  <span class="state-pending">Confirm Entry</span>
+                </label>
+              </div>
+            </div>
+
+            <dl class="extracted-grid">
+              <div class="extracted-field">
+                <dt>Amount</dt>
+                <dd class="mono-num">₹5,000.00</dd>
+              </div>
+              <div class="extracted-field">
+                <dt>Type</dt>
+                <dd><span class="badge badge-income">Income</span></dd>
+              </div>
+              <div class="extracted-field">
+                <dt>Merchant / Source</dt>
+                <dd>Monthly Allowance</dd>
+              </div>
+              <div class="extracted-field">
+                <dt>Category</dt>
+                <dd>Income</dd>
+              </div>
+              <div class="extracted-field">
+                <dt>Date</dt>
+                <dd class="mono-num">05-11-2026</dd>
+              </div>
+            </dl>
+          </article>
+
+          <!-- SMS Card 3 -->
+          <article class="card sms-card">
+            <div class="sms-top">
+              <div>
+                <span class="sms-sender">VK-HDFCBK &middot; Bank SMS</span>
+                <blockquote class="sms-raw">
+                  "Your A/c XX1234 is debited with Rs. 80.00 on 16-11-2026 towards UPI payment to BMTC BUS."
+                </blockquote>
+              </div>
+              <div class="verify-control">
+                <input type="checkbox" id="verify-sms-3" class="verify-checkbox">
+                <label for="verify-sms-3" class="verify-label">
+                  <span class="state-verified">Verified &amp; Logged</span>
+                  <span class="state-pending">Confirm Entry</span>
+                </label>
+              </div>
+            </div>
+
+            <dl class="extracted-grid">
+              <div class="extracted-field">
+                <dt>Amount</dt>
+                <dd class="mono-num">₹80.00</dd>
+              </div>
+              <div class="extracted-field">
+                <dt>Type</dt>
+                <dd><span class="badge badge-expense">Expense</span></dd>
+              </div>
+              <div class="extracted-field">
+                <dt>Merchant</dt>
+                <dd>BMTC Bus</dd>
+              </div>
+              <div class="extracted-field">
+                <dt>Category</dt>
+                <dd>Transportation</dd>
+              </div>
+              <div class="extracted-field">
+                <dt>Date</dt>
+                <dd class="mono-num">16-11-2026</dd>
+              </div>
+            </dl>
+          </article>
+        </div>
+
+        <div class="card empty-block">
+          <p class="empty-state">No detected bank SMS messages in queue. Sample messages were cleared to 0.</p>
+        </div>
+      </section>
+
+      <!-- C. EXPENSE CATEGORIES -->
+      <section id="categories" class="section" aria-labelledby="categories-heading">
+        <div class="section-header">
+          <div>
+            <h2 id="categories-heading" class="section-title">Expense Categories</h2>
+            <p class="section-subtitle">
+              Automated classification across 10 student spending categories (Total:
+              <span class="val-sample">₹7,450</span><span class="val-zero">₹0</span>)
+            </p>
+          </div>
+        </div>
+
+        <div class="category-grid">
+          <article class="card category-card">
+            <div class="cat-card-top">
+              <h3 class="cat-name">Accommodation</h3>
+              <span class="cat-percent"><span class="val-sample">26.8%</span><span class="val-zero">0%</span></span>
+            </div>
+            <p class="cat-amount"><span class="val-sample">₹2,000</span><span class="val-zero">₹0</span></p>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 26.8%;"></div>
+            </div>
+            <p class="cat-count">
+              <span class="val-sample">1 transaction &middot; Hostel fees</span>
+              <span class="val-zero">0 transactions</span>
+            </p>
+          </article>
+
+          <article class="card category-card">
+            <div class="cat-card-top">
+              <h3 class="cat-name">Food &amp; Dining</h3>
+              <span class="cat-percent"><span class="val-sample">21.7%</span><span class="val-zero">0%</span></span>
+            </div>
+            <p class="cat-amount"><span class="val-sample">₹1,620</span><span class="val-zero">₹0</span></p>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 21.7%;"></div>
+            </div>
+            <p class="cat-count">
+              <span class="val-sample">6 transactions &middot; Canteen, Zomato, mess</span>
+              <span class="val-zero">0 transactions</span>
+            </p>
+          </article>
+
+          <article class="card category-card">
+            <div class="cat-card-top">
+              <h3 class="cat-name">Groceries</h3>
+              <span class="cat-percent"><span class="val-sample">13.2%</span><span class="val-zero">0%</span></span>
+            </div>
+            <p class="cat-amount"><span class="val-sample">₹980</span><span class="val-zero">₹0</span></p>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 13.2%;"></div>
+            </div>
+            <p class="cat-count">
+              <span class="val-sample">2 transactions &middot; Room essentials</span>
+              <span class="val-zero">0 transactions</span>
+            </p>
+          </article>
+
+          <article class="card category-card">
+            <div class="cat-card-top">
+              <h3 class="cat-name">Education</h3>
+              <span class="cat-percent"><span class="val-sample">11.4%</span><span class="val-zero">0%</span></span>
+            </div>
+            <p class="cat-amount"><span class="val-sample">₹850</span><span class="val-zero">₹0</span></p>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 11.4%;"></div>
+            </div>
+            <p class="cat-count">
+              <span class="val-sample">2 transactions &middot; Books &amp; lab printouts</span>
+              <span class="val-zero">0 transactions</span>
+            </p>
+          </article>
+
+          <article class="card category-card">
+            <div class="cat-card-top">
+              <h3 class="cat-name">Transportation</h3>
+              <span class="cat-percent"><span class="val-sample">7.2%</span><span class="val-zero">0%</span></span>
+            </div>
+            <p class="cat-amount"><span class="val-sample">₹540</span><span class="val-zero">₹0</span></p>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 7.2%;"></div>
+            </div>
+            <p class="cat-count">
+              <span class="val-sample">3 transactions &middot; BMTC Bus &amp; Metro</span>
+              <span class="val-zero">0 transactions</span>
+            </p>
+          </article>
+
+          <article class="card category-card">
+            <div class="cat-card-top">
+              <h3 class="cat-name">Bills &amp; Recharge</h3>
+              <span class="cat-percent"><span class="val-sample">6.7%</span><span class="val-zero">0%</span></span>
+            </div>
+            <p class="cat-amount"><span class="val-sample">₹499</span><span class="val-zero">₹0</span></p>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 6.7%;"></div>
+            </div>
+            <p class="cat-count">
+              <span class="val-sample">1 transaction &middot; Prepaid mobile plan</span>
+              <span class="val-zero">0 transactions</span>
+            </p>
+          </article>
+
+          <article class="card category-card">
+            <div class="cat-card-top">
+              <h3 class="cat-name">Shopping</h3>
+              <span class="cat-percent"><span class="val-sample">4.7%</span><span class="val-zero">0%</span></span>
+            </div>
+            <p class="cat-amount"><span class="val-sample">₹350</span><span class="val-zero">₹0</span></p>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 4.7%;"></div>
+            </div>
+            <p class="cat-count">
+              <span class="val-sample">1 transaction &middot; Amazon order</span>
+              <span class="val-zero">0 transactions</span>
+            </p>
+          </article>
+
+          <article class="card category-card">
+            <div class="cat-card-top">
+              <h3 class="cat-name">Entertainment</h3>
+              <span class="cat-percent"><span class="val-sample">3.8%</span><span class="val-zero">0%</span></span>
+            </div>
+            <p class="cat-amount"><span class="val-sample">₹280</span><span class="val-zero">₹0</span></p>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 3.8%;"></div>
+            </div>
+            <p class="cat-count">
+              <span class="val-sample">1 transaction &middot; Weekend cinema</span>
+              <span class="val-zero">0 transactions</span>
+            </p>
+          </article>
+
+          <article class="card category-card">
+            <div class="cat-card-top">
+              <h3 class="cat-name">Healthcare</h3>
+              <span class="cat-percent"><span class="val-sample">2.6%</span><span class="val-zero">0%</span></span>
+            </div>
+            <p class="cat-amount"><span class="val-sample">₹191</span><span class="val-zero">₹0</span></p>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 2.6%;"></div>
+            </div>
+            <p class="cat-count">
+              <span class="val-sample">1 transaction &middot; Campus pharmacy</span>
+              <span class="val-zero">0 transactions</span>
+            </p>
+          </article>
+
+          <article class="card category-card">
+            <div class="cat-card-top">
+              <h3 class="cat-name">Other</h3>
+              <span class="cat-percent"><span class="val-sample">1.9%</span><span class="val-zero">0%</span></span>
+            </div>
+            <p class="cat-amount"><span class="val-sample">₹140</span><span class="val-zero">₹0</span></p>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 1.9%;"></div>
+            </div>
+            <p class="cat-count">
+              <span class="val-sample">1 transaction &middot; Hostel laundry</span>
+              <span class="val-zero">0 transactions</span>
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- D. RECENT TRANSACTIONS & E. MANUAL TRANSACTION ADDITION -->
+      <section id="transactions" class="section" aria-labelledby="transactions-heading">
+        <!-- Pure CSS Ledger Filter Controls -->
+        <input type="radio" name="tx-filter" id="filter-all" class="tx-filter-input" checked>
+        <input type="radio" name="tx-filter" id="filter-expense" class="tx-filter-input">
+        <input type="radio" name="tx-filter" id="filter-income" class="tx-filter-input">
+        <input type="radio" name="tx-filter" id="filter-sms" class="tx-filter-input">
+
+        <div class="section-header">
+          <div>
+            <h2 id="transactions-heading" class="section-title">Transaction History</h2>
+            <p class="section-subtitle">Clean chronological ledger of SMS-imported and manual student entries</p>
+          </div>
+
+          <div class="filter-tabs" role="group" aria-label="Filter transactions">
+            <label for="filter-all" class="filter-tab">All (<span class="val-sample">9</span><span
+                class="val-zero">0</span>)</label>
+            <label for="filter-expense" class="filter-tab">Expenses (<span class="val-sample">7</span><span
+                class="val-zero">0</span>)</label>
+            <label for="filter-income" class="filter-tab">Income (<span class="val-sample">2</span><span
+                class="val-zero">0</span>)</label>
+            <label for="filter-sms" class="filter-tab">Auto SMS (<span class="val-sample">8</span><span
+                class="val-zero">0</span>)</label>
+          </div>
+        </div>
+
+        <div class="card table-card">
+          <div class="table-ledger-bar">
+            <span class="ledger-summary-item">
+              Period: <strong>November 2026</strong>
+            </span>
+            <div class="ledger-totals">
+              <span class="ledger-summary-item">
+                Credits: <strong class="text-income"><span class="val-sample">+₹12,000</span><span
+                    class="val-zero">₹0</span></strong>
+              </span>
+              <span class="ledger-summary-item">
+                Debits: <strong class="text-expense"><span class="val-sample">-₹7,450</span><span
+                    class="val-zero">₹0</span></strong>
+              </span>
+            </div>
+          </div>
+
+          <div class="table-wrapper">
+            <table class="tx-table">
+              <thead>
+                <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">Description / Merchant</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">Payment Method</th>
+                  <th scope="col">Type</th>
+                  <th scope="col" class="col-right">Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="sample-row" data-source="sms">
+                  <td class="mono-num tx-date">17 Nov 2026</td>
+                  <td>
+                    <div class="tx-merchant-cell">
+                      <span class="tx-merchant">Zomato</span>
+                      <span class="source-tag">Auto SMS</span>
+                    </div>
+                  </td>
+                  <td><span class="cat-pill">Food &amp; Dining</span></td>
+                  <td class="tx-method">UPI</td>
+                  <td><span class="badge badge-expense">Expense</span></td>
+                  <td class="col-right amount-expense">-₹250</td>
+                </tr>
+                <tr class="sample-row" data-source="sms">
+                  <td class="mono-num tx-date">16 Nov 2026</td>
+                  <td>
+                    <div class="tx-merchant-cell">
+                      <span class="tx-merchant">BMTC Bus</span>
+                      <span class="source-tag">Auto SMS</span>
+                    </div>
+                  </td>
+                  <td><span class="cat-pill">Transportation</span></td>
+                  <td class="tx-method">UPI</td>
+                  <td><span class="badge badge-expense">Expense</span></td>
+                  <td class="col-right amount-expense">-₹80</td>
+                </tr>
+                <tr class="sample-row" data-source="sms">
+                  <td class="mono-num tx-date">15 Nov 2026</td>
+                  <td>
+                    <div class="tx-merchant-cell">
+                      <span class="tx-merchant">College Canteen</span>
+                      <span class="source-tag">Auto SMS</span>
+                    </div>
+                  </td>
+                  <td><span class="cat-pill">Food &amp; Dining</span></td>
+                  <td class="tx-method">UPI</td>
+                  <td><span class="badge badge-expense">Expense</span></td>
+                  <td class="col-right amount-expense">-₹120</td>
+                </tr>
+                <tr class="sample-row" data-source="sms">
+                  <td class="mono-num tx-date">12 Nov 2026</td>
+                  <td>
+                    <div class="tx-merchant-cell">
+                      <span class="tx-merchant">Mobile Recharge</span>
+                      <span class="source-tag">Auto SMS</span>
+                    </div>
+                  </td>
+                  <td><span class="cat-pill">Bills &amp; Recharge</span></td>
+                  <td class="tx-method">UPI</td>
+                  <td><span class="badge badge-expense">Expense</span></td>
+                  <td class="col-right amount-expense">-₹499</td>
+                </tr>
+                <tr class="sample-row" data-source="sms">
+                  <td class="mono-num tx-date">10 Nov 2026</td>
+                  <td>
+                    <div class="tx-merchant-cell">
+                      <span class="tx-merchant">Amazon</span>
+                      <span class="source-tag">Auto SMS</span>
+                    </div>
+                  </td>
+                  <td><span class="cat-pill">Shopping</span></td>
+                  <td class="tx-method">Debit Card</td>
+                  <td><span class="badge badge-expense">Expense</span></td>
+                  <td class="col-right amount-expense">-₹350</td>
+                </tr>
+                <tr class="sample-row" data-source="manual">
+                  <td class="mono-num tx-date">08 Nov 2026</td>
+                  <td>
+                    <div class="tx-merchant-cell">
+                      <span class="tx-merchant">Campus Book Depot</span>
+                      <span class="source-tag source-manual">Manual</span>
+                    </div>
+                  </td>
+                  <td><span class="cat-pill">Education</span></td>
+                  <td class="tx-method">Cash</td>
+                  <td><span class="badge badge-expense">Expense</span></td>
+                  <td class="col-right amount-expense">-₹850</td>
+                </tr>
+                <tr class="row-income sample-row" data-source="sms">
+                  <td class="mono-num tx-date">05 Nov 2026</td>
+                  <td>
+                    <div class="tx-merchant-cell">
+                      <span class="tx-merchant">Monthly Allowance</span>
+                      <span class="source-tag">Auto SMS</span>
+                    </div>
+                  </td>
+                  <td><span class="cat-pill">Income</span></td>
+                  <td class="tx-method">Bank Transfer</td>
+                  <td><span class="badge badge-income">Income</span></td>
+                  <td class="col-right amount-income">+₹5,000</td>
+                </tr>
+                <tr class="sample-row" data-source="sms">
+                  <td class="mono-num tx-date">02 Nov 2026</td>
+                  <td>
+                    <div class="tx-merchant-cell">
+                      <span class="tx-merchant">Hostel Fees</span>
+                      <span class="source-tag">Auto SMS</span>
+                    </div>
+                  </td>
+                  <td><span class="cat-pill">Accommodation</span></td>
+                  <td class="tx-method">UPI</td>
+                  <td><span class="badge badge-expense">Expense</span></td>
+                  <td class="col-right amount-expense">-₹2,000</td>
+                </tr>
+                <tr class="row-income sample-row" data-source="sms">
+                  <td class="mono-num tx-date">01 Nov 2026</td>
+                  <td>
+                    <div class="tx-merchant-cell">
+                      <span class="tx-merchant">Part-Time Stipend</span>
+                      <span class="source-tag">Auto SMS</span>
+                    </div>
+                  </td>
+                  <td><span class="cat-pill">Income</span></td>
+                  <td class="tx-method">NEFT</td>
+                  <td><span class="badge badge-income">Income</span></td>
+                  <td class="col-right amount-income">+₹7,000</td>
+                </tr>
+                <tr class="empty-table-row">
+                  <td colspan="6" class="empty-table-cell">
+                    0 transactions recorded. All balances and history have been reset to ₹0.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- E. Manual Transaction Addition -->
+        <div id="manual-entry" class="card manual-card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Add Manual Transaction</h3>
+              <p class="card-subtitle">Log cash payments or offline transactions not captured by bank SMS</p>
+            </div>
+            <span class="badge badge-neutral">Manual Entry</span>
+          </div>
+
+          <form class="manual-form" action="#transactions" method="get">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="tx-name">Transaction Name</label>
+                <input type="text" id="tx-name" name="tx_name" placeholder="e.g., College Canteen Lunch" required>
+              </div>
+
+              <div class="form-group">
+                <label for="tx-amount">Amount</label>
+                <div class="currency-input">
+                  <span class="currency-prefix" aria-hidden="true">₹</span>
+                  <input type="number" id="tx-amount" name="tx_amount" min="1" step="0.01" placeholder="120.00"
+                    required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="tx-type">Transaction Type</label>
+                <select id="tx-type" name="tx_type">
+                  <option value="expense" selected>Expense (Debit)</option>
+                  <option value="income">Income (Credit)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="tx-category">Category</label>
+                <select id="tx-category" name="tx_category">
+                  <option value="Food & Dining">Food &amp; Dining</option>
+                  <option value="Transportation">Transportation</option>
+                  <option value="Shopping">Shopping</option>
+                  <option value="Education">Education</option>
+                  <option value="Entertainment">Entertainment</option>
+                  <option value="Accommodation">Accommodation</option>
+                  <option value="Groceries">Groceries</option>
+                  <option value="Bills & Recharge">Bills &amp; Recharge</option>
+                  <option value="Healthcare">Healthcare</option>
+                  <option value="Other">Other</option>
+                  <option value="Income">Income / Allowance</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="tx-date">Date</label>
+                <input type="date" id="tx-date" name="tx_date" value="2026-11-17" required>
+              </div>
+
+              <div class="form-group">
+                <label for="tx-method">Payment Method</label>
+                <select id="tx-method" name="tx_method">
+                  <option value="UPI">UPI</option>
+                  <option value="Cash">Cash</option>
+                  <option value="Debit Card">Debit Card</option>
+                  <option value="Bank Transfer">Bank Transfer</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-footer">
+              <p class="form-hint">Entries added here are tagged as <strong>Manual</strong> in your ledger.</p>
+              <button type="submit" class="btn btn-primary">Add Transaction</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- F. MONTHLY BUDGET -->
+      <section id="budget" class="section" aria-labelledby="budget-heading">
+        <div class="section-header">
+          <div>
+            <h2 id="budget-heading" class="section-title">Monthly Budget</h2>
+            <p class="section-subtitle">November 2026 spending limit and category-wise allocation</p>
+          </div>
+        </div>
+
+        <div class="card budget-overview-card">
+          <div class="budget-stats-row">
+            <div>
+              <span class="stat-small-label">Monthly Budget</span>
+              <p class="stat-medium-value"><span class="val-sample">₹9,000</span><span class="val-zero">₹0</span></p>
+            </div>
+            <div>
+              <span class="stat-small-label">Amount Spent</span>
+              <p class="stat-medium-value"><span class="val-sample">₹7,450</span><span class="val-zero">₹0</span></p>
+            </div>
+            <div>
+              <span class="stat-small-label">Remaining Budget</span>
+              <p class="stat-medium-value text-income"><span class="val-sample">₹1,550</span><span
+                  class="val-zero">₹0</span></p>
+            </div>
+          </div>
+
+          <div class="budget-meter">
+            <div class="meter-labels">
+              <span>
+                <span class="val-sample">Overall Utilization (82.8%)</span>
+                <span class="val-zero">Overall Utilization (0%)</span>
+              </span>
+              <span>
+                <span class="val-sample">₹1,550 left for 13 days</span>
+                <span class="val-zero">₹0 remaining</span>
+              </span>
+            </div>
+            <div class="progress-track progress-lg">
+              <div class="progress-fill" style="width: 82.8%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="card-title mb-md">Category-Wise Budget Allocation</h3>
+
+          <div class="budget-list">
+            <div class="budget-row">
+              <div class="budget-row-info">
+                <span class="budget-cat">Accommodation</span>
+                <span class="budget-nums">
+                  <span class="val-sample">₹2,000 / ₹2,000 (100%)</span>
+                  <span class="val-zero">₹0 / ₹0 (0%)</span>
+                </span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill progress-olive-dark" style="width: 100%;"></div>
+              </div>
+            </div>
+
+            <div class="budget-row">
+              <div class="budget-row-info">
+                <span class="budget-cat">Food &amp; Dining</span>
+                <span class="budget-nums">
+                  <span class="val-sample">₹1,620 / ₹2,000 (81.0%)</span>
+                  <span class="val-zero">₹0 / ₹0 (0%)</span>
+                </span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" style="width: 81%;"></div>
+              </div>
+            </div>
+
+            <div class="budget-row">
+              <div class="budget-row-info">
+                <span class="budget-cat">Groceries</span>
+                <span class="budget-nums">
+                  <span class="val-sample">₹980 / ₹1,200 (81.7%)</span>
+                  <span class="val-zero">₹0 / ₹0 (0%)</span>
+                </span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" style="width: 81.7%;"></div>
+              </div>
+            </div>
+
+            <div class="budget-row">
+              <div class="budget-row-info">
+                <span class="budget-cat">Education</span>
+                <span class="budget-nums">
+                  <span class="val-sample">₹850 / ₹1,000 (85.0%)</span>
+                  <span class="val-zero">₹0 / ₹0 (0%)</span>
+                </span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" style="width: 85%;"></div>
+              </div>
+            </div>
+
+            <div class="budget-row">
+              <div class="budget-row-info">
+                <span class="budget-cat">Transportation</span>
+                <span class="budget-nums">
+                  <span class="val-sample">₹540 / ₹700 (77.1%)</span>
+                  <span class="val-zero">₹0 / ₹0 (0%)</span>
+                </span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" style="width: 77.1%;"></div>
+              </div>
+            </div>
+
+            <div class="budget-row">
+              <div class="budget-row-info">
+                <span class="budget-cat">Bills &amp; Recharge</span>
+                <span class="budget-nums">
+                  <span class="val-sample">₹499 / ₹600 (83.2%)</span>
+                  <span class="val-zero">₹0 / ₹0 (0%)</span>
+                </span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" style="width: 83.2%;"></div>
+              </div>
+            </div>
+
+            <div class="budget-row">
+              <div class="budget-row-info">
+                <span class="budget-cat">Shopping</span>
+                <span class="budget-nums">
+                  <span class="val-sample">₹350 / ₹600 (58.3%)</span>
+                  <span class="val-zero">₹0 / ₹0 (0%)</span>
+                </span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" style="width: 58.3%;"></div>
+              </div>
+            </div>
+
+            <div class="budget-row">
+              <div class="budget-row-info">
+                <span class="budget-cat">Entertainment</span>
+                <span class="budget-nums">
+                  <span class="val-sample">₹280 / ₹400 (70.0%)</span>
+                  <span class="val-zero">₹0 / ₹0 (0%)</span>
+                </span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" style="width: 70%;"></div>
+              </div>
+            </div>
+
+            <div class="budget-row">
+              <div class="budget-row-info">
+                <span class="budget-cat">Healthcare &amp; Other</span>
+                <span class="budget-nums">
+                  <span class="val-sample">₹331 / ₹500 (66.2%)</span>
+                  <span class="val-zero">₹0 / ₹0 (0%)</span>
+                </span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" style="width: 66.2%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- G. ENHANCED INSIGHTS -->
+      <section id="insights" class="section" aria-labelledby="insights-heading">
+        <div class="section-header">
+          <div>
+            <h2 id="insights-heading" class="section-title">Spending Insights</h2>
+            <p class="section-subtitle">Quantitative spending ratios, pace metrics, and month-over-month benchmarks</p>
+          </div>
+          <span class="badge badge-neutral">17 Days Elapsed</span>
+        </div>
+
+        <!-- Analytical Comparison Row -->
+        <div class="grid-two-col">
+          <!-- Month-over-Month Benchmark Card -->
+          <article class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Comparison with Previous Month</h3>
+                <p class="card-subtitle">Total expenditure: October vs. November 2026</p>
+              </div>
+              <span class="badge badge-income">
+                <span class="val-sample">-8.4% Lower Spend</span>
+                <span class="val-zero">0% Change</span>
+              </span>
+            </div>
+
+            <div class="comparison-bars">
+              <div class="comp-row">
+                <div class="comp-meta">
+                  <span>October 2026 (Full Month)</span>
+                  <span class="mono-num"><strong><span class="val-sample">₹8,130</span><span
+                        class="val-zero">₹0</span></strong></span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill progress-muted" style="width: 90.3%;"></div>
+                </div>
+              </div>
+
+              <div class="comp-row">
+                <div class="comp-meta">
+                  <span>November 2026 (To Date)</span>
+                  <span class="mono-num"><strong><span class="val-sample">₹7,450</span><span
+                        class="val-zero">₹0</span></strong></span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill" style="width: 82.8%;"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="insight-footnote">
+              <span>Net Expense Delta: <strong><span class="val-sample">-₹680</span><span
+                    class="val-zero">₹0</span></strong></span>
+              <span>Net Savings Delta: <strong class="text-income"><span class="val-sample">+₹680</span><span
+                    class="val-zero">₹0</span></strong></span>
+            </div>
+          </article>
+
+          <!-- Daily Burn Rate & Payment Split Card -->
+          <article class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Daily Expenditure Pace</h3>
+                <p class="card-subtitle">Actual daily burn rate vs. ₹9,000 monthly budget cap</p>
+              </div>
+              <span class="badge badge-olive">
+                <span class="val-sample">₹119/day Safe Limit</span>
+                <span class="val-zero">₹0/day</span>
+              </span>
+            </div>
+
+            <div class="pace-metrics">
+              <div class="pace-box">
+                <span class="stat-small-label">Average Daily Spend</span>
+                <p class="stat-medium-value"><span class="val-sample">₹438 / day</span><span class="val-zero">₹0 /
+                    day</span></p>
+                <span class="kpi-meta">Over 17 elapsed days</span>
+              </div>
+              <div class="pace-box">
+                <span class="stat-small-label">Target Daily Budget</span>
+                <p class="stat-medium-value"><span class="val-sample">₹300 / day</span><span class="val-zero">₹0 /
+                    day</span></p>
+                <span class="kpi-meta">30-day baseline</span>
+              </div>
+              <div class="pace-box">
+                <span class="stat-small-label">UPI Share of Spend</span>
+                <p class="stat-medium-value"><span class="val-sample">83.9%</span><span class="val-zero">0%</span></p>
+                <span class="kpi-meta"><span class="val-sample">₹6,250 via UPI</span><span class="val-zero">₹0 via
+                    UPI</span></span>
+              </div>
+            </div>
+
+            <div class="insight-footnote">
+              <span>Fixed Housing Ratio: <strong><span class="val-sample">26.8% (₹2,000)</span><span
+                    class="val-zero">0%</span></strong></span>
+              <span>Variable Discretionary: <strong><span class="val-sample">73.2% (₹5,450)</span><span
+                    class="val-zero">0%</span></strong></span>
+            </div>
+          </article>
+        </div>
+
+        <!-- Core Metric Cards -->
+        <div class="insights-grid-four">
+          <article class="card insight-card">
+            <p class="kpi-label">Highest Spending Category</p>
+            <p class="insight-value">
+              <span class="val-sample">Accommodation &middot; ₹2,000</span>
+              <span class="val-zero">None &middot; ₹0</span>
+            </p>
+            <p class="kpi-meta">
+              <span class="val-sample">26.8% of total monthly expenses</span>
+              <span class="val-zero">0% of total monthly expenses</span>
+            </p>
+          </article>
+
+          <article class="card insight-card">
+            <p class="kpi-label">Most Expensive Transaction</p>
+            <p class="insight-value">
+              <span class="val-sample">₹2,000 &middot; Hostel Fees</span>
+              <span class="val-zero">₹0 &middot; None</span>
+            </p>
+            <p class="kpi-meta">
+              <span class="val-sample">Paid via UPI on 02 Nov 2026</span>
+              <span class="val-zero">No transactions recorded</span>
+            </p>
+          </article>
+
+          <article class="card insight-card">
+            <p class="kpi-label">Amount Saved This Month</p>
+            <p class="insight-value text-income">
+              <span class="val-sample">₹4,550</span>
+              <span class="val-zero">₹0</span>
+            </p>
+            <p class="kpi-meta">
+              <span class="val-sample">37.9% savings rate (₹1,550 over goal)</span>
+              <span class="val-zero">0% savings rate</span>
+            </p>
+          </article>
+
+          <article class="card insight-card">
+            <p class="kpi-label">Smallest Recurring Outflow</p>
+            <p class="insight-value">
+              <span class="val-sample">₹80 &middot; BMTC Bus</span>
+              <span class="val-zero">₹0 &middot; None</span>
+            </p>
+            <p class="kpi-meta">
+              <span class="val-sample">Daily campus transit via UPI</span>
+              <span class="val-zero">No transactions recorded</span>
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- ENHANCED SETTINGS -->
+      <section id="settings" class="section" aria-labelledby="settings-heading">
+        <div class="section-header">
+          <div>
+            <h2 id="settings-heading" class="section-title">Settings &amp; Parser Rules</h2>
+            <p class="section-subtitle">Configure bank SMS detection rules, budget alerts, and workspace state</p>
+          </div>
+        </div>
+
+        <div class="grid-two-col">
+          <!-- Card 1: SMS Detection & Account Rules -->
+          <article class="card settings-card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">SMS Parser &amp; Bank Account</h3>
+                <p class="card-subtitle">Automated transaction extraction preferences</p>
+              </div>
+              <span class="badge badge-olive">Active</span>
+            </div>
+
+            <div class="setting-row">
+              <div>
+                <p class="setting-title">Linked Bank Account Mask</p>
+                <p class="setting-desc">Matches debit and credit alerts ending with XX1234</p>
+              </div>
+              <span class="mono-num badge badge-neutral">A/c XX1234</span>
+            </div>
+
+            <div class="setting-row">
+              <div>
+                <p class="setting-title">Whitelisted Bank Sender IDs</p>
+                <p class="setting-desc">Trusted SMS headers parsed for UPI and card alerts</p>
+              </div>
+              <div class="sender-chips">
+                <code>HDFCBK</code>
+                <code>SBIINB</code>
+              </div>
+            </div>
+
+            <div class="setting-row">
+              <div>
+                <p class="setting-title">Auto-Categorize Known Merchants</p>
+                <p class="setting-desc">Map Zomato, BMTC, and campus canteen alerts automatically</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" checked aria-label="Auto-categorize known merchants">
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <div class="setting-row">
+              <div>
+                <p class="setting-title">Flag High-Value Transactions</p>
+                <p class="setting-desc">Require manual confirmation for SMS debits above ₹1,000</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" checked aria-label="Flag high-value transactions">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </article>
+
+          <!-- Card 2: Budget Caps, Theme & Data Controls -->
+          <article class="card settings-card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Budget Alerts &amp; Workspace</h3>
+                <p class="card-subtitle">Monthly cap thresholds, appearance, and ledger reset</p>
+              </div>
+            </div>
+
+            <div class="setting-row">
+              <div>
+                <p class="setting-title">Monthly Spending Cap</p>
+                <p class="setting-desc">Target ceiling used to calculate remaining budget</p>
+              </div>
+              <span class="mono-num badge badge-neutral">
+                <span class="val-sample">₹9,000 / mo</span>
+                <span class="val-zero">₹0 / mo</span>
+              </span>
+            </div>
+
+            <div class="setting-row">
+              <div>
+                <p class="setting-title">80% Budget Utilization Alert</p>
+                <p class="setting-desc">Highlight budget meter once monthly spend crosses 80%</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" checked aria-label="80 percent budget utilization alert">
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <div class="setting-row">
+              <div>
+                <p class="setting-title">Color Theme</p>
+                <p class="setting-desc">Switch between Ivory Light and Olive Charcoal Dark modes</p>
+              </div>
+              <label for="theme-toggle" class="action-toggle-btn theme-toggle-btn" role="button" tabindex="0">
+                <span class="theme-label-dark">Dark Theme</span>
+                <span class="theme-label-light">Light Theme</span>
+              </label>
+            </div>
+
+            <div class="setting-row">
+              <div>
+                <p class="setting-title">Reset Test Data</p>
+                <p class="setting-desc">Zero out all sample balances and history or restore demo entries</p>
+              </div>
+              <label for="reset-toggle" class="action-toggle-btn reset-btn" role="button" tabindex="0">
+                <span class="reset-label-clear">Reset to ₹0</span>
+                <span class="reset-label-restore">Restore Data</span>
+              </label>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+
+</html>

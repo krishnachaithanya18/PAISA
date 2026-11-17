@@ -1,0 +1,829 @@
+/* ==========================================================================
+   PAISA — Student Smart Expense Tracker
+   Color Palette: Olive Green + Ivory White (Light & Dark Themes)
+   ========================================================================== */
+
+:root {
+  --olive-primary: #606C38;
+  --olive-dark: #283618;
+  --olive-tint: #EEF1E6;
+  --olive-border: #C4CEAE;
+  --ivory-bg: #F5F2E8;
+  --cream-surface: #FEFCF5;
+  --beige-border: #DAD5C5;
+  --beige-subtle: #EAE5D6;
+  --text-primary: #25291F;
+  --text-secondary: #585E4E;
+  --expense-accent: #8F472E;
+  --expense-tint: #F7ECE7;
+  --row-hover: #F9F6EC;
+  --row-income-bg: #F6F8F0;
+
+  --radius-sm: 4px;
+  --radius-md: 7px;
+  --shadow-xs: 0 1px 2px rgba(40, 54, 24, 0.05);
+  --sidebar-width: 240px;
+}
+
+/* Dark Theme Variable Overrides (Pure CSS Checkbox Toggle) */
+body:has(#theme-toggle:checked),
+#theme-toggle:checked~.app-shell {
+  --olive-primary: #8FA058;
+  --olive-dark: #DCE3C8;
+  --olive-tint: #28311E;
+  --olive-border: #3E4A2F;
+  --ivory-bg: #171A13;
+  --cream-surface: #20241B;
+  --beige-border: #353B2D;
+  --beige-subtle: #2A2F24;
+  --text-primary: #F0EDE2;
+  --text-secondary: #A8A598;
+  --expense-accent: #E08B6E;
+  --expense-tint: #35231D;
+  --row-hover: #262B20;
+  --row-income-bg: #22291C;
+  --shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.28);
+  color-scheme: dark;
+}
+
+/* Reset & Base Typography */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--ivory-bg);
+  color: var(--text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+dl,
+dd,
+dt,
+blockquote {
+  margin: 0;
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+code,
+.mono-num,
+.kpi-value,
+.stat-medium-value,
+.week-amount,
+.cat-amount,
+.amount-expense,
+.amount-income,
+.budget-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.82em;
+  background-color: var(--beige-subtle);
+  padding: 0.12rem 0.4rem;
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ==========================================================================
+   Pure CSS Reset-to-0 Toggle Mechanics
+   ========================================================================== */
+
+.val-zero,
+.empty-block,
+.empty-table-row,
+.reset-label-restore {
+  display: none;
+}
+
+#reset-toggle:checked~.app-shell .val-sample,
+#reset-toggle:checked~.app-shell .sample-block,
+#reset-toggle:checked~.app-shell .sample-row,
+#reset-toggle:checked~.app-shell .reset-label-clear {
+  display: none !important;
+}
+
+#reset-toggle:checked~.app-shell .val-zero,
+#reset-toggle:checked~.app-shell .reset-label-restore {
+  display: inline;
+}
+
+#reset-toggle:checked~.app-shell .empty-block {
+  display: block;
+}
+
+#reset-toggle:checked~.app-shell .empty-table-row {
+  display: table-row;
+}
+
+#reset-toggle:checked~.app-shell .progress-fill {
+  width: 0% !important;
+}
+
+.empty-state {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  padding: 0.75rem 0;
+}
+
+.empty-table-cell {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 1.75rem 1rem !important;
+  font-size: 0.86rem;
+}
+
+/* ==========================================================================
+   Layout Shell & Sidebar Navigation
+   ========================================================================== */
+
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--ivory-bg);
+  color: var(--text-primary);
+}
+
+.theme-toggle,
+.reset-toggle,
+.sidebar-toggle,
+.tx-filter-input {
+  display: none;
+}
+
+.mobile-header {
+  display: none;
+}
+
+.sidebar {
+  width: var(--sidebar-width);
+  background-color: var(--cream-surface);
+  border-right: 1px solid var(--beige-border);
+  padding: 1.25rem 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 30;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--beige-border);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.brand-mark {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  background-color: var(--olive-dark);
+  color: var(--cream-surface);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.brand-text strong {
+  font-size: 1rem;
+  color: var(--olive-dark);
+  letter-spacing: 0.02em;
+}
+
+.brand-text small {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.close-menu {
+  display: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--text-secondary);
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: 1.25rem;
+  margin-bottom: auto;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.55rem 0.75rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.nav-link:hover,
+.nav-link:focus-visible {
+  background-color: var(--ivory-bg);
+  color: var(--text-primary);
+}
+
+.nav-link.active {
+  background-color: var(--olive-tint);
+  color: var(--olive-dark);
+  font-weight: 600;
+}
+
+.nav-pill {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 0.1rem 0.4rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--olive-primary);
+  color: var(--cream-surface);
+}
+
+.sidebar-footer {
+  padding-top: 1rem;
+  border-top: 1px solid var(--beige-border);
+}
+
+.account-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.65rem;
+  background-color: var(--ivory-bg);
+  border: 1px solid var(--beige-border);
+  border-radius: var(--radius-md);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--olive-primary);
+  flex-shrink: 0;
+}
+
+.account-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.account-sub {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   Main Content & Topbar
+   ========================================================================== */
+
+.main-content {
+  margin-left: var(--sidebar-width);
+  flex: 1;
+  padding: 1.75rem 2rem 3rem;
+  max-width: 1280px;
+}
+
+.topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--beige-border);
+}
+
+.page-title {
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--olive-dark);
+  letter-spacing: -0.015em;
+}
+
+.page-subtitle {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-top: 0.15rem;
+}
+
+.topbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+/* Action Toggle Buttons (Reset to 0 & Theme Switcher) */
+.action-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.46rem 0.78rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--beige-border);
+  background-color: var(--cream-surface);
+  color: var(--text-primary);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.action-toggle-btn:hover {
+  border-color: var(--olive-primary);
+}
+
+.reset-btn {
+  color: var(--expense-accent);
+}
+
+.reset-btn:hover {
+  border-color: var(--expense-accent);
+  background-color: var(--expense-tint);
+}
+
+#reset-toggle:checked~.app-shell .reset-btn {
+  background-color: var(--olive-tint);
+  border-color: var(--olive-primary);
+  color: var(--olive-dark);
+}
+
+.theme-toggle-btn::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: var(--olive-dark);
+  border: 1px solid var(--olive-primary);
+}
+
+.theme-label-light {
+  display: none;
+}
+
+#theme-toggle:checked~.app-shell .theme-label-dark {
+  display: none;
+}
+
+#theme-toggle:checked~.app-shell .theme-label-light {
+  display: inline;
+}
+
+select,
+input[type="text"],
+input[type="number"],
+input[type="date"] {
+  font-family: inherit;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  background-color: var(--cream-surface);
+  border: 1px solid var(--beige-border);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.7rem;
+  transition: border-color 0.15s ease;
+}
+
+select:focus,
+input:focus {
+  outline: none;
+  border-color: var(--olive-primary);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.5rem 0.95rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.btn-primary {
+  background-color: var(--olive-primary);
+  color: var(--cream-surface);
+}
+
+.btn-primary:hover {
+  background-color: var(--olive-dark);
+}
+
+/* ==========================================================================
+   Sections, Cards & Common Grids
+   ========================================================================== */
+
+.section {
+  margin-bottom: 2.25rem;
+  scroll-margin-top: 1.5rem;
+}
+
+.section-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--olive-dark);
+}
+
+.section-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 0.1rem;
+}
+
+.card {
+  background-color: var(--cream-surface);
+  border: 1px solid var(--beige-border);
+  border-radius: var(--radius-md);
+  padding: 1.15rem 1.25rem;
+  box-shadow: var(--shadow-xs);
+}
+
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.card-title {
+  font-size: 0.975rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.card-subtitle {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-top: 0.1rem;
+}
+
+.mb-md {
+  margin-bottom: 1rem;
+}
+
+.text-link {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--olive-primary);
+}
+
+.text-link:hover {
+  color: var(--olive-dark);
+  text-decoration: underline;
+}
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.18rem 0.55rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.74rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge-neutral {
+  background-color: var(--ivory-bg);
+  color: var(--text-secondary);
+  border: 1px solid var(--beige-border);
+}
+
+.badge-olive {
+  background-color: var(--olive-tint);
+  color: var(--olive-dark);
+  border: 1px solid var(--olive-border);
+}
+
+.badge-income {
+  background-color: var(--olive-tint);
+  color: var(--olive-dark);
+}
+
+.badge-expense {
+  background-color: var(--expense-tint);
+  color: var(--expense-accent);
+}
+
+.text-income {
+  color: var(--olive-primary);
+}
+
+.text-expense {
+  color: var(--expense-accent);
+}
+
+/* ==========================================================================
+   A. Dashboard KPIs & Overview Cards
+   ========================================================================== */
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.kpi-highlight {
+  background-color: var(--olive-tint);
+  border-color: var(--olive-border);
+}
+
+.kpi-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.kpi-value {
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: var(--olive-dark);
+  margin: 0.3rem 0 0.2rem;
+  letter-spacing: -0.02em;
+}
+
+.kpi-meta {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.grid-two-col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Progress Bars */
+.progress-track {
+  width: 100%;
+  height: 7px;
+  background-color: var(--ivory-bg);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--beige-subtle);
+}
+
+.progress-lg {
+  height: 10px;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: var(--olive-primary);
+  border-radius: 2px;
+  transition: width 0.2s ease;
+}
+
+.progress-olive-dark {
+  background-color: var(--olive-dark);
+}
+
+.progress-muted {
+  background-color: var(--text-secondary);
+  opacity: 0.55;
+}
+
+.weekly-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.week-row {
+  display: grid;
+  grid-template-columns: 135px 1fr 64px;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.week-label {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+.week-amount {
+  font-size: 0.84rem;
+  font-weight: 600;
+  text-align: right;
+}
+
+.savings-figures {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  padding-bottom: 0.9rem;
+  margin-bottom: 0.9rem;
+  border-bottom: 1px solid var(--beige-border);
+}
+
+.stat-small-label {
+  display: block;
+  font-size: 0.76rem;
+  color: var(--text-secondary);
+}
+
+.stat-medium-value {
+  font-size: 1.12rem;
+  font-weight: 700;
+  color: var(--olive-dark);
+  margin-top: 0.15rem;
+}
+
+.meter-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.4rem;
+}
+
+.helper-note {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  margin-top: 0.85rem;
+}
+
+/* Compact Lists on Dashboard */
+.compact-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.compact-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--beige-subtle);
+}
+
+.compact-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.item-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.item-sub {
+  font-size: 0.77rem;
+  color: var(--text-secondary);
+}
+
+.source-tag {
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 0.08rem 0.4rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--ivory-bg);
+  color: var(--text-secondary);
+  border: 1px solid var(--beige-border);
+}
+
+.source-manual {
+  background-color: transparent;
+  border-style: dashed;
+}
+
+.amount-expense {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.amount-income {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--olive-primary);
+}
+
+.compact-category {
+  padding: 0.52rem 0;
+}
+
+.cat-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.84rem;
+  margin-bottom: 0.35rem;
+}
+
+/* ==========================================================================
+   B. Automatic Transaction Detection (SMS Engine)
+   ========================================================================== */
+
+.integration-banner {
+  margin-bottom: 1rem;
+  background-color: var(--cream-surface);
+}
+
+.integration-status-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  padding-bottom: 0.9rem;
+  margin-bottom: 0.9rem;
+  border-bottom: 1px solid var(--beige-border);
+}
+
+.status-value {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--olive-dark);
+  margin-top: 0.2rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.disclosure-note {
+  font-size: 0.83rem;
+  color: var(--text-secondary);
+  line-height: 1.5
