@@ -6,6 +6,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PAISA — Student Smart Expense Tracker</title>
   <link rel="stylesheet" href="style.css">
+  <script>
+    (function () {
+      try {
+        var theme = localStorage.getItem('paisa_theme');
+        if (theme === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          document.addEventListener('DOMContentLoaded', function () {
+            document.body.classList.add('dark-theme');
+            var toggle = document.getElementById('theme-toggle');
+            if (toggle) toggle.checked = true;
+          });
+        }
+      } catch (e) { }
+    })();
+  </script>
 </head>
 
 <body>
@@ -76,15 +91,15 @@
         </div>
 
         <div class="topbar-actions">
-          <label for="reset-toggle" class="action-toggle-btn reset-btn" role="button" tabindex="0">
+          <button type="button" class="action-toggle-btn reset-btn">
             <span class="reset-label-clear">Reset Data to ₹0</span>
             <span class="reset-label-restore">Restore Sample Data</span>
-          </label>
+          </button>
 
-          <label for="theme-toggle" class="action-toggle-btn theme-toggle-btn" role="button" tabindex="0">
+          <button type="button" class="action-toggle-btn theme-toggle-btn">
             <span class="theme-label-dark">Dark Theme</span>
             <span class="theme-label-light">Light Theme</span>
-          </label>
+          </button>
 
           <div class="month-picker">
             <label for="month-select" class="sr-only">Select Month</label>
@@ -157,7 +172,7 @@
 
         <!-- Monthly Spending Overview & Savings Overview -->
         <div class="grid-two-col">
-          <article class="card">
+          <article class="card" id="weekly-spending-card">
             <div class="card-header">
               <div>
                 <h3 class="card-title">Monthly Spending Overview</h3>
@@ -210,7 +225,7 @@
             </div>
           </article>
 
-          <article class="card">
+          <article class="card" id="savings-overview-card">
             <div class="card-header">
               <div>
                 <h3 class="card-title">Savings Overview</h3>
@@ -322,7 +337,7 @@
             <p class="empty-state empty-block">No recent activity. All ledger entries have been reset to ₹0.</p>
           </article>
 
-          <article class="card">
+          <article class="card" id="top-categories-card">
             <div class="card-header">
               <div>
                 <h3 class="card-title">Top Spending Categories</h3>
@@ -334,7 +349,7 @@
               <a href="#categories" class="text-link">All 10 categories &rarr;</a>
             </div>
 
-            <ul class="compact-list">
+            <ul class="compact-list" id="top-categories-list">
               <li class="compact-category">
                 <div class="cat-top">
                   <span>Accommodation</span>
@@ -443,6 +458,30 @@
             parsed payloads from a companion Android app (with explicit <code>READ_SMS</code> permission) or a secure
             encrypted webhook backend.
           </p>
+        </div>
+
+        <!-- Live Bank SMS Simulator & Custom Input Panel -->
+        <div class="card sms-simulator-box">
+          <div class="sms-simulator-header">
+            <div>
+              <h3 class="card-title">Live Bank SMS Simulator</h3>
+              <p class="card-subtitle">Click a sample alert below or paste your own bank SMS to test automatic extraction live</p>
+            </div>
+            <span class="badge badge-olive">Live Parser</span>
+          </div>
+
+          <div class="sms-sim-chips">
+            <button type="button" class="sim-chip-btn" data-sender="VK-HDFCBK" data-sms="Your A/c XX1234 is debited with Rs. 280.00 on 18-11-2026 towards UPI payment to ZOMATO FOOD.">🍔 Zomato ₹280</button>
+            <button type="button" class="sim-chip-btn" data-sender="AD-SBIINB" data-sms="Dear Customer, A/c XX1234 debited with INR 345.00 on 18-11-2026 towards UPI to BLINKIT GROCERIES.">🥦 Blinkit ₹345</button>
+            <button type="button" class="sim-chip-btn" data-sender="VK-HDFCBK" data-sms="Your A/c XX1234 is debited with Rs. 70.00 on 18-11-2026 towards UPI payment to BMTC BUS.">🚌 BMTC Pass ₹70</button>
+            <button type="button" class="sim-chip-btn" data-sender="AX-AXISBK" data-sms="Your A/c XX1234 is credited with Rs. 4500.00 on 18-11-2026 via NEFT from CREATIVE STUDIO LLP.">💰 Freelance Stipend +₹4,500</button>
+            <button type="button" class="sim-chip-btn" data-sender="VK-HDFCBK" data-sms="Your A/c XX1234 is debited with Rs. 165.00 on 18-11-2026 towards UPI payment to APOLLO PHARMACY.">💊 Apollo Pharmacy ₹165</button>
+          </div>
+
+          <div class="sms-custom-input-group">
+            <textarea id="custom-sms-text" rows="2" placeholder="Or paste any Indian bank SMS notification here (e.g., 'Your A/c XX1234 debited with Rs. 150.00 on 18-11-2026 towards UPI to CAFE COFFEE')..."></textarea>
+            <button type="button" id="btn-parse-sms" class="btn btn-primary">Parse &amp; Detect SMS</button>
+          </div>
         </div>
 
         <!-- Sample Bank SMS Cards & Verification Interface -->
@@ -770,6 +809,13 @@
           </div>
         </div>
 
+        <div class="tx-toolbar">
+          <div class="search-box">
+            <span aria-hidden="true">🔍</span>
+            <input type="text" id="tx-search-input" placeholder="Search by merchant, category, or payment method...">
+          </div>
+        </div>
+
         <div class="card table-card">
           <div class="table-ledger-bar">
             <span class="ledger-summary-item">
@@ -797,6 +843,7 @@
                   <th scope="col">Payment Method</th>
                   <th scope="col">Type</th>
                   <th scope="col" class="col-right">Amount</th>
+                  <th scope="col" class="col-right">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -937,7 +984,7 @@
             <span class="badge badge-neutral">Manual Entry</span>
           </div>
 
-          <form class="manual-form" action="#transactions" method="get">
+          <form class="manual-form" id="manual-tx-form" onsubmit="event.preventDefault(); if (window.paisaApp) { window.paisaApp.handleManualSubmit(this); } return false;">
             <div class="form-grid">
               <div class="form-group">
                 <label for="tx-name">Transaction Name</label>
@@ -996,7 +1043,7 @@
 
             <div class="form-footer">
               <p class="form-hint">Entries added here are tagged as <strong>Manual</strong> in your ledger.</p>
-              <button type="submit" class="btn btn-primary">Add Transaction</button>
+              <button type="button" id="btn-add-tx" class="btn btn-primary" onclick="if (window.paisaApp) { window.paisaApp.handleManualSubmit(document.getElementById('manual-tx-form')); }">Add Transaction</button>
             </div>
           </form>
         </div>
@@ -1182,7 +1229,7 @@
         <!-- Analytical Comparison Row -->
         <div class="grid-two-col">
           <!-- Month-over-Month Benchmark Card -->
-          <article class="card">
+          <article class="card" id="mom-comparison-card">
             <div class="card-header">
               <div>
                 <h3 class="card-title">Comparison with Previous Month</h3>
@@ -1227,7 +1274,7 @@
           </article>
 
           <!-- Daily Burn Rate & Payment Split Card -->
-          <article class="card">
+          <article class="card" id="daily-pace-card">
             <div class="card-header">
               <div>
                 <h3 class="card-title">Daily Expenditure Pace</h3>
@@ -1346,7 +1393,7 @@
                 <p class="setting-title">Linked Bank Account Mask</p>
                 <p class="setting-desc">Matches debit and credit alerts ending with XX1234</p>
               </div>
-              <span class="mono-num badge badge-neutral">A/c XX1234</span>
+              <span class="mono-num badge badge-neutral" id="monthly-cap-badge">A/c XX1234</span>
             </div>
 
             <div class="setting-row">
@@ -1366,7 +1413,7 @@
                 <p class="setting-desc">Map Zomato, BMTC, and campus canteen alerts automatically</p>
               </div>
               <label class="switch">
-                <input type="checkbox" checked aria-label="Auto-categorize known merchants">
+                <input type="checkbox" id="toggle-auto-categorize" checked aria-label="Auto-categorize known merchants">
                 <span class="slider"></span>
               </label>
             </div>
@@ -1377,7 +1424,7 @@
                 <p class="setting-desc">Require manual confirmation for SMS debits above ₹1,000</p>
               </div>
               <label class="switch">
-                <input type="checkbox" checked aria-label="Flag high-value transactions">
+                <input type="checkbox" id="toggle-high-value" checked aria-label="Flag high-value transactions">
                 <span class="slider"></span>
               </label>
             </div>
@@ -1397,7 +1444,7 @@
                 <p class="setting-title">Monthly Spending Cap</p>
                 <p class="setting-desc">Target ceiling used to calculate remaining budget</p>
               </div>
-              <span class="mono-num badge badge-neutral">
+              <span class="mono-num badge badge-neutral" id="monthly-cap-badge">
                 <span class="val-sample">₹9,000 / mo</span>
                 <span class="val-zero">₹0 / mo</span>
               </span>
@@ -1409,7 +1456,7 @@
                 <p class="setting-desc">Highlight budget meter once monthly spend crosses 80%</p>
               </div>
               <label class="switch">
-                <input type="checkbox" checked aria-label="80 percent budget utilization alert">
+                <input type="checkbox" id="toggle-budget-alert" checked aria-label="80 percent budget utilization alert">
                 <span class="slider"></span>
               </label>
             </div>
@@ -1419,10 +1466,10 @@
                 <p class="setting-title">Color Theme</p>
                 <p class="setting-desc">Switch between Ivory Light and Olive Charcoal Dark modes</p>
               </div>
-              <label for="theme-toggle" class="action-toggle-btn theme-toggle-btn" role="button" tabindex="0">
+              <button type="button" class="action-toggle-btn theme-toggle-btn">
                 <span class="theme-label-dark">Dark Theme</span>
                 <span class="theme-label-light">Light Theme</span>
-              </label>
+              </button>
             </div>
 
             <div class="setting-row">
@@ -1430,16 +1477,35 @@
                 <p class="setting-title">Reset Test Data</p>
                 <p class="setting-desc">Zero out all sample balances and history or restore demo entries</p>
               </div>
-              <label for="reset-toggle" class="action-toggle-btn reset-btn" role="button" tabindex="0">
+              <button type="button" class="action-toggle-btn reset-btn">
                 <span class="reset-label-clear">Reset to ₹0</span>
                 <span class="reset-label-restore">Restore Data</span>
-              </label>
+              </button>
+            </div>
+
+            <div class="setting-row">
+              <div>
+                <p class="setting-title">Backup &amp; Restore Database</p>
+                <p class="setting-desc">Export ledger data to JSON or import from an existing backup</p>
+              </div>
+              <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <button type="button" id="btn-export-data" class="action-toggle-btn">Export JSON</button>
+                <label class="action-toggle-btn" style="cursor: pointer;">
+                  Import JSON
+                  <input type="file" id="import-file-input" accept=".json" style="display: none;">
+                </label>
+              </div>
             </div>
           </article>
         </div>
       </section>
     </main>
   </div>
+
+  <!-- Local Database & Interactive Application Scripts -->
+  <script src="db.js"></script>
+  <script src="sms-parser.js"></script>
+  <script src="app.js"></script>
 </body>
 
 </html>
